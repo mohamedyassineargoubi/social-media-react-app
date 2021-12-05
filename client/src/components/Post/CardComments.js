@@ -1,7 +1,10 @@
+
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { addComment, getPosts } from '../../actions/post.actions';
 import FollowHandler from '../Profil/FollowHandler';
 import { isEmpty, timeStampParser } from '../Utils';
+import EditDeleteComment from './EditDeleteComment';
 
 const CardComments = ({ post }) => {
     const users = useSelector(state => state.usersReducer)
@@ -10,9 +13,17 @@ const CardComments = ({ post }) => {
     const [text, setText] = useState("");
 
 
-    const handleComment = () => {
+    const handleComment = (e) => {
+        e.preventDefault();
+        if (text) {
 
-    }
+            dispatch(addComment(post._id, user._id, text, user.pseudo))
+
+            setText('');
+
+
+        }
+    };
     return (
         <div className="comments-container">
             {post.comments.map(comment => {
@@ -40,6 +51,8 @@ const CardComments = ({ post }) => {
                                 </div>
                                 <span>{timeStampParser(comment.timestamp)}</span>
                             </div>
+                            <p>{comment.text}</p>
+                            <EditDeleteComment comment={comment} postId={post._id} />
                         </div>
 
                     </div>
@@ -48,6 +61,17 @@ const CardComments = ({ post }) => {
 
 
             })}
+            {user._id &&
+                (
+                    <form onSubmit={handleComment} className="comment-form">
+                        <input type="text" name="text" onChange={(e) => setText(e.target.value)} value={text} placeholder="Laisser un commentaire" />
+                        <br />
+                        <input type="submit" value="Envoyer" />
+
+                    </form>
+
+                )}
+
         </div>
     );
 };
