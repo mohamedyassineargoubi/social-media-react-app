@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const GET_POSTS = "GET_POSTS";
+export const GET_ALL_POSTS = "GET_ALL_POSTS";
+export const ADD_POST = "ADD_POST";
 export const LIKE_POST = "LIKE_POST";
 export const DISLIKE_POST = "DISLIKE_POST";
 
@@ -11,6 +13,8 @@ export const DELETE_POST = "DELETE_POST";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
+export const GET_POST_ERRORS = "GET_POST_ERRORS";
+export const GET_TRENDS = "GET_TRENDS"
 
 
 export const getPosts = (num) => {
@@ -23,11 +27,31 @@ export const getPosts = (num) => {
             .then(res => {
                 const array = res.data.slice(0, num)
                 dispatch({ type: GET_POSTS, payload: array })
+                dispatch({ type: GET_ALL_POSTS, payload: res.data })
             })
             .catch(err => console.log(err))
     }
 
 }
+export const addPost = (data) => {
+
+    return (dispatch) => {
+        axios.post(`${process.env.REACT_APP_API_URL}api/post/`, data)
+            .then((res) => {
+
+                if (res.data.errors) {
+                    dispatch({ type: GET_POST_ERRORS, payload: res.data.errors })
+                } else {
+                    dispatch({ type: GET_POST_ERRORS, payload: '' })
+                }
+
+            })
+
+    }
+
+}
+
+
 export const postLike = (postId, userId) => {
 
     return (dispatch) => {
@@ -136,6 +160,13 @@ export const deleteComment = (postId, commentId) => {
                 dispatch({ type: DELETE_COMMENT, payload: { postId, commentId } })
             })
             .catch(err => console.log(err))
+    }
+
+}
+export const getTrends = (sortedArray) => {
+
+    return (dispatch) => {
+        dispatch({ type: GET_TRENDS, payload: sortedArray })
     }
 
 }
