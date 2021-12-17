@@ -1,8 +1,8 @@
 https://user-images.githubusercontent.com/56802832/146587825-8d97e96b-4740-4de9-8882-a95fa79cdecc.mp4
 # Getting Started with Create React App
-FRONTEND : REACT JS ,REDUX ,CONTEXT API
-BACKEND : NODE JS
-DB : MONGO DB
+### FRONTEND : REACT JS ,REDUX ,CONTEXT API.\
+### BACKEND : NODE JS.\
+### DB : MONGO DB.\
 ## Available Scripts
 
 In the project directory, you can run:
